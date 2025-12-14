@@ -1,0 +1,5 @@
+name: "cnn"
+num_classes: 13
+
+cnn:
+  dropout: 0.3

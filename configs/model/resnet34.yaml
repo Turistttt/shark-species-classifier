@@ -1,0 +1,6 @@
+name: "resnet34"
+num_classes: 13
+
+resnet34:
+  pretrained: true
+  freeze_backbone_epochs: 2

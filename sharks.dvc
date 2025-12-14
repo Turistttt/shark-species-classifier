@@ -1,0 +1,6 @@
+outs:
+- md5: 62a128ce42491f042182bbc9187c34cb.dir
+  size: 634124033
+  nfiles: 1549
+  hash: md5
+  path: sharks

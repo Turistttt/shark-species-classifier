@@ -1,0 +1,22 @@
+defaults:
+  - _self_
+  - data: default
+  - model: resnet34
+  - optimizer: adamw
+  - trainer: default
+
+seed: 2025
+
+mlflow:
+  tracking_uri: "http://127.0.0.1:8080"
+  experiment_name: "shark-species-classifier"
+
+paths:
+  checkpoints_dir: "checkpoints"
+
+command: "train" # train | infer
+
+infer:
+  image_path: null
+  checkpoint_path: null
+  top_k: 5

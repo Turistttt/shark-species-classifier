@@ -1,0 +1,21 @@
+max_epochs: 10
+accelerator: "auto"
+devices: 1
+
+log_every_n_steps: 10
+
+fast_dev_run: false
+limit_train_batches: 1.0
+limit_val_batches: 1.0
+limit_test_batches: 1.0
+
+early_stopping:
+  monitor: "val_macro_f1"
+  mode: "max"
+  patience: 3
+
+checkpoint:
+  monitor: "val_macro_f1"
+  mode: "max"
+  save_top_k: 1
+  filename: "best-{epoch:02d}-{val_macro_f1:.4f}"

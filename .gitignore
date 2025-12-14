@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Tools
+.ruff_cache/
+.mypy_cache/
+.idea/
+.vscode/
+node_modules/
+
+# Hydra outputs
+outputs/
+multirun/
+
+# Logs / artifacts
+logs/
+mlruns/
+checkpoints/
+artifacts/
+
+# Data (must not be committed to git)
+data/
+sharks/
+sharks(rename)/
+
+# DVC
+.dvc/cache/
+/sharks
