@@ -56,6 +56,7 @@ uv run --active python -m shark_species_classifier.commands command=train `
   trainer.max_epochs=10 
 ```
 Результат на 10ти эпохах: 
+
 <img width="623" height="133" alt="image" src="https://github.com/user-attachments/assets/bdf93c43-a427-4369-ad90-f96542cc5a83" />
 
 Примеры override параметров:
