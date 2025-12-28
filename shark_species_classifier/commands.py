@@ -144,6 +144,9 @@ def train(cfg):
     )
 
     trainer.fit(lightning_module, datamodule=data_module)
+    # NOTE: Lightning disables checkpointing in fast_dev_run mode, so there is no "best".
+    if bool(cfg.trainer.fast_dev_run):
+        return
     trainer.test(lightning_module, datamodule=data_module, ckpt_path="best")
 
 
