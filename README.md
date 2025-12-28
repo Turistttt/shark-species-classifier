@@ -1,55 +1,45 @@
 ### shark-species-classifier
 
-Этот репозиторий содержит код для проекта **классификации видов акул по фотографии**
-(13 классов).
+Этот репозиторий содержит код для проекта **классификации видов акул по фотографии**.
 
+- **Задача**: многоклассовая классификация изображений
+- **Количество классов**: 13
 - **Вход**: RGB‑изображение (JPG/PNG)
-- **Выход**: вероятности по 13 классам (softmax)
+- **Выход**: вероятности по классам (softmax)
 - **Метрики**: Accuracy, Macro F1
-- **Данные**: Kaggle dataset “Shark Species” (`https://www.kaggle.com/datasets/larusso94/shark-species/data`)
+- **Датасет**: Kaggle “Shark Species” (`https://www.kaggle.com/datasets/larusso94/shark-species/data`)
+
+В проекте используются:
+
+- **PyTorch Lightning**: обучение
+- **Hydra**: конфиги (гиперпараметры без “магических констант”)
+- **MLflow**: логирование метрик/лоссов/гиперпараметров + тег `git_commit`
+- **DVC**: хранение данных (данные не коммитятся в git)
 
 ---
 
 ### Setup
 
-1. Установить зависимости (uv):
+Требования: установленный [`uv`](https://github.com/astral-sh/uv) и Git.
+
+1. Установить Python подходящей версии (проект рассчитан на **Python 3.10–3.12**):
+
+```bash
+uv python install 3.12
+uv venv --python 3.12
+```
+
+2. Установить зависимости:
 
 ```bash
 uv sync --extra dev
 ```
 
-2. Установить хуки:
+3. Установить и прогнать хуки качества кода:
 
 ```bash
 uv run pre-commit install
-```
-
-3. Проверить качество кода:
-
-```bash
 uv run pre-commit run -a
-```
-
----
-
-### Train
-
-Опционально: поднять MLflow server (по умолчанию проект ждёт `http://127.0.0.1:8080`):
-
-```bash
-uv run mlflow server --host 127.0.0.1 --port 8080
-```
-
-Запуск обучения:
-
-```bash
-uv run python -m shark_species_classifier.commands command=train
-```
-
-Пример override параметров:
-
-```bash
-uv run python -m shark_species_classifier.commands command=train trainer.max_epochs=10
 ```
 
 ---
@@ -58,18 +48,61 @@ uv run python -m shark_species_classifier.commands command=train trainer.max_epo
 
 Данные **не хранятся в git**.
 
-При запуске `train`/`infer` код:
+Ожидаемая структура данных: директория с подпапками‑классами:
 
-- пробует `dvc pull`
-- если DVC не настроен/не сработал — скачивает архив по публичной ссылке из `configs/data/default.yaml`
-  и распаковывает в `data.raw_dir`
+```text
+<raw_dir>/
+  class_1/
+    *.jpg|*.png
+  class_2/
+    *.jpg|*.png
+  ...
+```
+
+Где `raw_dir` задаётся в конфиге `configs/data/default.yaml` (по умолчанию `sharks`).
+
+При запуске `train`/`infer` код пытается обеспечить наличие данных:
+
+- сначала делает **`dvc pull`** через Python API
+- если это не сработало и в конфиге задан `data.yandex_public_url`, скачивает zip‑архив и распаковывает в `raw_dir`
+
+---
+
+### Train
+
+1. (Опционально) поднять MLflow server. По умолчанию проект ожидает `http://127.0.0.1:8080`:
+
+```bash
+uv run mlflow server --host 127.0.0.1 --port 8080
+```
+
+2. Запуск обучения:
+
+```bash
+uv run python -m shark_species_classifier.commands command=train
+```
+
+3. Примеры override параметров через Hydra:
+
+```bash
+uv run python -m shark_species_classifier.commands command=train trainer.max_epochs=10
+uv run python -m shark_species_classifier.commands command=train model=cnn data.batch_size=64
+```
+
+Во время обучения логируются метрики/лоссы в MLflow (если сервер доступен), а также сохраняются чекпойнты в `paths.checkpoints_dir` (по умолчанию `checkpoints/`).
 
 ---
 
 ### Infer
 
-Инференс по одному изображению (чекпойнт можно не указывать — возьмётся самый новый из `checkpoints/`):
+Инференс по одному изображению (чекпойнт можно не указывать — будет взят самый новый из `checkpoints/`):
 
 ```bash
 uv run python -m shark_species_classifier.commands command=infer infer.image_path=path/to/image.jpg
+```
+
+Пример с явным указанием чекпойнта:
+
+```bash
+uv run python -m shark_species_classifier.commands command=infer infer.image_path=path/to/image.jpg infer.checkpoint_path=checkpoints/some.ckpt
 ```

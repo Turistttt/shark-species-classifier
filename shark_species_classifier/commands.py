@@ -1,4 +1,6 @@
+import socket
 from pathlib import Path
+from urllib.parse import urlparse
 
 import hydra
 import pytorch_lightning as pl
@@ -34,6 +36,20 @@ def train(cfg):
         yandex_public_url=cfg.data.yandex_public_url,
     )
 
+    def _mlflow_is_reachable(tracking_uri: str, timeout_s: float = 1.0) -> bool:
+        try:
+            parsed = urlparse(tracking_uri)
+            if parsed.scheme not in {"http", "https"}:
+                return True
+            host = parsed.hostname
+            port = parsed.port or (443 if parsed.scheme == "https" else 80)
+            if host is None:
+                return False
+            with socket.create_connection((host, port), timeout=timeout_s):
+                return True
+        except OSError:
+            return False
+
     data_module = SharkDataModule(
         raw_dir=raw_dir,
         batch_size=int(cfg.data.batch_size),
@@ -68,6 +84,8 @@ def train(cfg):
     }
 
     try:
+        if not _mlflow_is_reachable(tracking_uri):
+            raise ConnectionError(f"MLflow is not reachable at {tracking_uri}")
         mlflow_logger = MLFlowLogger(
             experiment_name=str(cfg.mlflow.experiment_name),
             tracking_uri=tracking_uri,

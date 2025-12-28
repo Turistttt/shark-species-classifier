@@ -14,7 +14,7 @@ mlflow:
 paths:
   checkpoints_dir: "checkpoints"
 
-command: "train" # train | infer
+command: "train"
 
 infer:
   image_path: null
