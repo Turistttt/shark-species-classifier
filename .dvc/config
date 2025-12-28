@@ -1,5 +1,9 @@
 [core]
-    remote = yandex
+    remote = public
+
+['remote "public"']
+    url = https://storage.yandexcloud.net/mlops2dz/dvc
+
 ['remote "yandex"']
     url = s3://mlops2dz/dvc
     endpointurl = https://storage.yandexcloud.net
