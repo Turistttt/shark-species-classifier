@@ -52,7 +52,16 @@ uv run pre-commit run -a
 uv run mlflow server --host 127.0.0.1 --port 8080
 ```
 
-Запуск обучения с 10ю эпохами (можно и меньше если не очень хочется ждать):
+Запуск обучения с 10ю эпохами (можно и меньше если не очень хочется ждать).
+
+По умолчанию данные подтягиваются через DVC (см. раздел **Data**), поэтому базовая команда такая:
+
+```powershell
+uv run --active python -m shark_species_classifier.commands command=train `
+  trainer.max_epochs=10
+```
+
+Если DVC pull недоступен (например, нет доступа к remote), можно использовать fallback‑скачивание по публичной ссылке Яндекс.Диска:
 
 ```powershell
 uv run --active python -m shark_species_classifier.commands command=train `
