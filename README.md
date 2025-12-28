@@ -38,11 +38,6 @@ uv run pre-commit run -a
 
 Если папки `sharks/` нет и `dvc pull` не сработал, код скачает **zip‑архив** с данными по публичной ссылке Яндекс.Диска и распакует его в `raw_dir`.
 
-Примечание про доступ:
-
-- **Для чтения (проверяющий / clean clone)** используется публичный DVC remote по HTTP — ключи не нужны.
-- **Для записи (`dvc push`)** используется S3‑remote `yandex` и требуются ключи (см. ниже).
-
 Публичная ссылка на данные:
 
 - `https://disk.360.yandex.ru/d/AvVGI04GbHC2Xw`
@@ -72,17 +67,6 @@ uv run --active python -m shark_species_classifier.commands command=train `
 uv run --active python -m shark_species_classifier.commands command=train `
   data.yandex_public_url='https://disk.360.yandex.ru/d/AvVGI04GbHC2Xw' `
   trainer.max_epochs=10
-```
-
-## DVC push (для владельца репозитория)
-
-Чтобы загрузить данные в DVC remote (в бакет) из локальной папки `sharks/`, нужны ключи доступа Yandex Object Storage (S3).
-Ключи **не добавляйте в git**. Удобный вариант — задать переменные окружения на время команды:
-
-```powershell
-$env:AWS_ACCESS_KEY_ID="..."
-$env:AWS_SECRET_ACCESS_KEY="..."
-uv run dvc push -r yandex
 ```
 
 Результат на 10ти эпохах:
