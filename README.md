@@ -32,17 +32,6 @@ uv run pre-commit run -a
 
 Данные **не хранятся в git**.
 
-Ожидаемая структура данных (папка на класс):
-
-```text
-sharks/
-  class_1/
-    *.jpg|*.png
-  class_2/
-    *.jpg|*.png
-  ...
-```
-
 Если папки `sharks/` нет, код скачает **zip‑архив** с данными по публичной ссылке Яндекс.Диска и распакует его в `raw_dir`.
 
 Публичная ссылка на данные:
@@ -82,11 +71,7 @@ uv run --active python -m shark_species_classifier.commands command=train model=
 uv run --active python -m shark_species_classifier.commands command=infer `
   infer.image_path=path/to/image.jpg
 ```
+<img width="977" height="122" alt="image" src="https://github.com/user-attachments/assets/a8726bf3-0c64-411b-ae69-727ef1acdea0" />
 
 Пример с явным указанием чекпойнта:
 
-```powershell
-uv run --active python -m shark_species_classifier.commands command=infer `
-  infer.image_path=path/to/image.jpg `
-  infer.checkpoint_path=checkpoints/some.ckpt
-```
