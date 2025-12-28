@@ -85,18 +85,10 @@ uv run mlflow server --host 127.0.0.1 --port 8080
 2. Запуск обучения:
 
 ```bash
-uv run python -m shark_species_classifier.commands command=train
+uv run --active python -m shark_species_classifier.commands command=train `
+  data.yandex_public_url='https://disk.360.yandex.ru/d/AvVGI04GbHC2Xw' `
+  trainer.max_epochs=10
 ```
-
-3. Примеры override параметров через Hydra:
-
-```bash
-uv run python -m shark_species_classifier.commands command=train trainer.max_epochs=10
-uv run python -m shark_species_classifier.commands command=train model=cnn data.batch_size=64
-```
-
-Во время обучения логируются метрики/лоссы в MLflow (если сервер доступен), а также сохраняются чекпойнты в `paths.checkpoints_dir` (по умолчанию `checkpoints/`).
-
 ---
 
 ### Infer
