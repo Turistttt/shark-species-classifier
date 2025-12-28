@@ -48,13 +48,15 @@ uv run pre-commit run -a
 uv run mlflow server --host 127.0.0.1 --port 8080
 ```
 
-Запуск обучения (PowerShell):
+Запуск обучения с 10ю эпохами (можно и меньше если не очень хочется ждать):
 
 ```powershell
 uv run --active python -m shark_species_classifier.commands command=train `
   data.yandex_public_url='https://disk.360.yandex.ru/d/AvVGI04GbHC2Xw' `
-  trainer.max_epochs=10
+  trainer.max_epochs=10 
 ```
+Результат на 10ти эпохах: 
+<img width="623" height="133" alt="image" src="https://github.com/user-attachments/assets/bdf93c43-a427-4369-ad90-f96542cc5a83" />
 
 Примеры override параметров:
 
