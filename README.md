@@ -63,8 +63,14 @@ uv run pre-commit run -a
 
 При запуске `train`/`infer` код пытается обеспечить наличие данных:
 
-- сначала делает **`dvc pull`** через Python API
+- сначала делает **`dvc pull`** через Python API (если настроен DVC remote)
 - если это не сработало и в конфиге задан `data.yandex_public_url`, скачивает zip‑архив и распаковывает в `raw_dir`
+
+Если у вас **не настроен DVC remote**, укажите ссылку на публичный архив с данными через Hydra:
+
+```bash
+uv run python -m shark_species_classifier.commands command=train data.yandex_public_url="https://disk.yandex.ru/d/<id>"
+```
 
 ---
 

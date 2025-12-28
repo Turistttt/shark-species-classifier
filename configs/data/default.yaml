@@ -1,0 +1,14 @@
+raw_dir: "sharks"
+
+yandex_public_url: null
+
+batch_size: 32
+num_workers: 0
+
+image_size: 224
+mean: [0.485, 0.456, 0.406]
+std: [0.229, 0.224, 0.225]
+
+test_ratio: 0.2
+val_ratio_within_train: 0.2
+random_state: 2025
