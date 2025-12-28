@@ -16,10 +16,10 @@
 - **MLflow**: логирование метрик/лоссов/гиперпараметров + тег `git_commit`
 - **DVC**: трекинг данных (данные не коммитятся в git)
 
-## Setup
+## Setup 
 
 Требования: установленный [`uv`](https://github.com/astral-sh/uv) и Git.
-
+Перейдя в папку shark-species-classifier запускаем следующие команды:
 ```bash
 uv venv
 uv sync --extra dev
