@@ -71,6 +71,7 @@ uv run --active python -m shark_species_classifier.commands command=train model=
 uv run --active python -m shark_species_classifier.commands command=infer `
   infer.image_path=path/to/image.jpg
 ```
+Пример инференса :
 <img width="977" height="122" alt="image" src="https://github.com/user-attachments/assets/a8726bf3-0c64-411b-ae69-727ef1acdea0" />
 
 Пример с явным указанием чекпойнта:
